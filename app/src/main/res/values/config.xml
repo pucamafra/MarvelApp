@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_base_url">https://gateway.marvel.com:443/</string>
+    <string name="public_key">c9a0ab6a03e62fe32e7bbede9aea94bf</string>
+    <string name="private_key">a35abd89f31d879b43d3762bbb222b24ca532d13</string>
+
+
+</resources>
