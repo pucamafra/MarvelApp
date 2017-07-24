@@ -6,9 +6,12 @@ import com.tab.marvelapp.ui.base.IPresenterView;
 
 public interface ComicsListPresenterView extends IPresenterView {
 
+     void showLoading();
+
+     void dismissLoading();
+
      void onComicsSuccess(Result[] results);
 
      void onComicsFail();
-
 
 }

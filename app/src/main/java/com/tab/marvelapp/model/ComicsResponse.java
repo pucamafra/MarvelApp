@@ -1,7 +1,9 @@
 package com.tab.marvelapp.model;
 
 
-public class ComicsResponse {
+import java.io.Serializable;
+
+public class ComicsResponse implements Serializable {
 
     private int code;
 
@@ -16,7 +18,6 @@ public class ComicsResponse {
     private String attributionHTML;
 
     private Data data;
-
 
     public Data getData() {
         return data;

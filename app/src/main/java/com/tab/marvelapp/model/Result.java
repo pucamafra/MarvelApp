@@ -1,12 +1,17 @@
 package com.tab.marvelapp.model;
 
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
     private String id;
     private String title;
     private String description;
     private Thumbnail thumbnail;
     private Price[] prices;
+    private int pageCount;
+
+    private Creators creators;
 
     public Price[] getPrices() {
         return prices;
@@ -28,4 +33,12 @@ public class Result {
         return thumbnail;
     }
 
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public Creators getCreators() {
+        return creators;
+    }
 }

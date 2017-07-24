@@ -23,15 +23,15 @@ public class ComicItem extends AbstractFlexibleItem<ComicItem.ViewHolder> {
 
 
     public interface OnClickListener {
-         void onClick(Result result);
+        void onComicSelected(Result result);
     }
 
     private final Result result;
-    private final OnClickListener listner;
+    private final OnClickListener listener;
 
-    public ComicItem(Result result,OnClickListener listner) {
+    public ComicItem(Result result, OnClickListener listener) {
         this.result = result;
-        this.listner = listner;
+        this.listener = listener;
     }
 
     @Override
@@ -59,29 +59,14 @@ public class ComicItem extends AbstractFlexibleItem<ComicItem.ViewHolder> {
 
         if (this.result.getThumbnail() != null) {
             Thumbnail thumbnail = this.result.getThumbnail();
-            String url = thumbnail.getPath() + "." + thumbnail.getExtension();
             Picasso.with(viewHolder.getContentView().getContext())
-                    .load(url)
+                    .load(thumbnail.getUrl())
                     .fit()
                     .centerInside()
                     .into(viewHolder.thumbnail);
         }
 
-        viewHolder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listner.onClick(result);
-            }
-        });
-
-
-
-       /* final Picasso imageLoader = Picasso.with(context);
-        imageLoader.load(photoEntity.mediaUrl)
-                .fit()
-                .placeholder(new ColorDrawable(Color.GRAY))
-                .error(com.twitter.sdk.android.tweetui.R.drawable.tw__ic_tweet_photo_error_light)
-                .into(imageView, new PicassoCallback(imageView));*/
+        viewHolder.view.setOnClickListener(v -> listener.onComicSelected(result));
 
     }
 
@@ -94,7 +79,7 @@ public class ComicItem extends AbstractFlexibleItem<ComicItem.ViewHolder> {
 
         View view;
 
-        public ViewHolder(View view, final FlexibleAdapter adapter) {
+        ViewHolder(View view, final FlexibleAdapter adapter) {
             super(view, adapter);
             ButterKnife.bind(this, view);
             this.view = view;
