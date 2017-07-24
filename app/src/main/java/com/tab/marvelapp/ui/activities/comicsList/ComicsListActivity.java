@@ -99,7 +99,7 @@ public class ComicsListActivity extends AppCompatActivity implements ComicsListP
     @Override
     public void onComicSelected(Result result) {
         System.out.println();
-        Intent intent = ComicDetailActivity.createInstace(this, result);
+        Intent intent = ComicDetailActivity.createInstance(this, result);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
     }
