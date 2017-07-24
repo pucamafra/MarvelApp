@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/place_holder" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:textAppearance="@style/textAppearanceListItemTitle"
+            tools:text="Title" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:textAppearance="@style/textAppearanceListItemText"
+            tools:text="Lorem ipsum dolor sit amet, vel aperiri facilis ea, at ignota consulatu pri. Id singulis corrumpit sea, eam posse sanctus no. Iudico platonem qui te. Mel atqui congue alterum in. Cum accusata gloriatur ea, sea iuvaret oporteat adipisci in." />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/page_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/textAppearanceListItemText"
+            tools:text="200 Pages" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/authors_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/authors"
+            android:textAppearance="@style/textAppearanceListItemText" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/authors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/textAppearanceListItemSmall"
+            tools:text="Ronald Byrd\nJeff Christiansen\nAnthony Flamini" />
+
+    </LinearLayout>
+
+</ScrollView>
