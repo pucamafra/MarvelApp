@@ -21,11 +21,23 @@ public class MarvelApplication extends Application {
     private void resolveDependency() {
         appComponent = DaggerAppComponent.builder()
                 .dataModule(new DataModule(getApplicationContext()))
-                .networkModule(new NetworkModule(getString(R.string.api_base_url)))
+                .networkModule(new NetworkModule(getBaseURL(), getPublicKey(), getPrivateKey()))
                 .build();
     }
 
     public static AppComponent getApiComponent() {
         return appComponent;
+    }
+
+    private String getBaseURL() {
+        return getString(R.string.api_base_url);
+    }
+
+    private String getPublicKey() {
+        return getString(R.string.public_key);
+    }
+
+    private String getPrivateKey() {
+        return getString(R.string.private_key);
     }
 }

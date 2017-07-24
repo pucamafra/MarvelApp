@@ -3,6 +3,7 @@ package com.tab.marvelapp.di;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
+import com.tab.marvelapp.config.Constants;
 import com.tab.marvelapp.data.MarvelDataSource;
 import com.tab.marvelapp.data.MarvelRepository;
 import com.tab.marvelapp.data.remote.MarvelRemoteData;
@@ -27,9 +28,13 @@ public class NetworkModule {
     private final int TIME_OUT = 10;
     private final TimeUnit timeUnit = TimeUnit.SECONDS;
     private String mBaseURL;
+    private String mPublicKey;
+    private String mPrivateKey;
 
-    public NetworkModule(String baseURL) {
+    public NetworkModule(String baseURL, String publicKey, String privateKey) {
         this.mBaseURL = baseURL;
+        this.mPublicKey = publicKey;
+        this.mPrivateKey = privateKey;
     }
 
     @Provides
@@ -61,28 +66,22 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    MarvelDataSource provideMarvelRespository(MarvelRemoteData marvelRemoteData) {
+    MarvelDataSource provideMarvelDataSource(MarvelRemoteData marvelRemoteData) {
         return new MarvelRepository(marvelRemoteData);
     }
 
     @Provides
     @Singleton
     MarvelApi provideMarvelApi(RestAdapter.Builder restAdapterBuilder) {
-        restAdapterBuilder.setRequestInterceptor(new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
+        restAdapterBuilder.setRequestInterceptor(request -> {
 
-                long ts = (System.currentTimeMillis() / 1000);
-                String publicKey = "c9a0ab6a03e62fe32e7bbede9aea94bf";
-                String privateKey = "a35abd89f31d879b43d3762bbb222b24ca532d13";
+            long ts = (System.currentTimeMillis() / 1000);
+            String hash = HashGenerator.generate(ts, this.mPrivateKey, this.mPublicKey);
 
-                String hash = HashGenerator.generate(ts, privateKey, publicKey);
+            request.addQueryParam(Constants.API_KEY, mPublicKey);
+            request.addQueryParam(Constants.HASH, hash);
+            request.addQueryParam(Constants.TS, Long.toString(ts));
 
-                request.addQueryParam("apikey", publicKey);
-                request.addQueryParam("hash", hash);
-                request.addQueryParam("ts", Long.toString(ts));
-
-            }
         });
         return restAdapterBuilder.build().create(MarvelApi.class);
     }
