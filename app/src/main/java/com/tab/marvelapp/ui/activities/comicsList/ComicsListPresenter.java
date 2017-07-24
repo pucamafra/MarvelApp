@@ -2,12 +2,10 @@ package com.tab.marvelapp.ui.activities.comicsList;
 
 
 import com.tab.marvelapp.data.MarvelDataSource;
-import com.tab.marvelapp.model.ComicsResponse;
 import com.tab.marvelapp.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -29,7 +27,12 @@ public class ComicsListPresenter extends BasePresenter<ComicsListPresenterView> 
         Subscription subscription = this.marvelDataSource.fetchComics()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(comicsResponse -> view.onComicsSuccess(comicsResponse.getData().getResults()), throwable -> {
+                .subscribe(
+                        comicsResponse -> {
+                            view.onComicsSuccess(comicsResponse.getData().getResults());
+                            view.dismissLoading();
+                        },
+                        throwable -> {
                             view.dismissLoading();
                             view.onComicsFail();
                         }
