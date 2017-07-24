@@ -47,6 +47,8 @@ ext {
     edittextPasswordVersion = '1.0.0'
     materialDialogsVersion = '0.8.5.7'
     apacheCommonsVersion = '3.4'
+    flexibleAdapter = '5.0.0-rc1'
+    picasso = '2.5.2'
     jsr250Version = '1.0'
 }
 
@@ -73,7 +75,9 @@ dependencies {
 
     provided "javax.annotation:jsr250-api:$jsr250Version"
 
-    compile 'eu.davidea:flexible-adapter:5.0.0-b8'
+    compile "eu.davidea:flexible-adapter:$flexibleAdapter"
+
+    compile "com.squareup.picasso:picasso:picasso"
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
