@@ -3,5 +3,5 @@
     <string name="authors">Authors</string>
     <string name="internal_error">Something went wrong</string>
     <string name="search_hint">Enter with the budget</string>
-
+    <string name="try_again">Try again</string>
 </resources>

@@ -1,17 +1,16 @@
 package com.tab.marvelapp.ui.activities.comicsList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.tab.marvelapp.MarvelApplication;
 import com.tab.marvelapp.R;
 import com.tab.marvelapp.model.Result;
 import com.tab.marvelapp.ui.activities.comicDetail.ComicDetailActivity;
@@ -20,16 +19,11 @@ import com.tab.marvelapp.ui.recycleviewItem.ComicItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 
-public class ComicsListActivity extends AppCompatActivity implements ComicsListPresenterView, ComicItem.OnClickListener {
-
-    @Inject
-    ComicsListPresenter comicsListPresenter;
+public class ComicsListActivity extends AppCompatActivity implements ComicItem.OnClickListener, SearchView.OnQueryTextListener {
 
     @BindView(R.id.comicList)
     RecyclerView comicList;
@@ -42,15 +36,21 @@ public class ComicsListActivity extends AppCompatActivity implements ComicsListP
 
     private FlexibleAdapter<ComicItem> adapter;
 
+    public static Intent createInstance(Context context, Result[] results) {
+        Intent intent = new Intent(context, ComicsListActivity.class);
+        intent.putExtra("results", results);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comics_list);
         ButterKnife.bind(this);
-        MarvelApplication.getApiComponent().inject(this);
         setupLayout();
-        this.comicsListPresenter.attachView(this);
-        this.comicsListPresenter.fetchComics();
+
+        Intent intent = getIntent();
+        setupComics((Result[]) intent.getSerializableExtra("results"));
     }
 
     public void setupLayout() {
@@ -65,21 +65,9 @@ public class ComicsListActivity extends AppCompatActivity implements ComicsListP
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
                 linearLayoutManager.getOrientation());
         this.comicList.addItemDecoration(dividerItemDecoration);
-
     }
 
-    @Override
-    public void showLoading() {
-        this.progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void dismissLoading() {
-        this.progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onComicsSuccess(Result[] results) {
+    public void setupComics(Result[] results) {
         System.out.println();
 
         List<ComicItem> items = new ArrayList<>();
@@ -92,11 +80,6 @@ public class ComicsListActivity extends AppCompatActivity implements ComicsListP
     }
 
     @Override
-    public void onComicsFail() {
-        Toast.makeText(this, R.string.internal_error, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onComicSelected(Result result) {
         System.out.println();
         Intent intent = ComicDetailActivity.createInstance(this, result);
@@ -105,8 +88,12 @@ public class ComicsListActivity extends AppCompatActivity implements ComicsListP
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.comicsListPresenter.detachView();
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
