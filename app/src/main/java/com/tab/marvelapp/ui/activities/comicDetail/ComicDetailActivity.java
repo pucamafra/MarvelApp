@@ -4,7 +4,6 @@ package com.tab.marvelapp.ui.activities.comicDetail;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -37,9 +36,6 @@ public class ComicDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.image)
     AppCompatImageView image;
-
-    @BindView(R.id.title)
-    AppCompatTextView title;
 
     @BindView(R.id.description)
     AppCompatTextView description;
@@ -108,28 +104,8 @@ public class ComicDetailActivity extends AppCompatActivity {
         Palette.from(bitmap).generate(palette -> {
             int mutedColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
             int mutedDarkColor = palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-            int vibrantColor = palette.getDominantColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-            collapsingToolbarLayout.setContentScrimColor(mutedColor);
-            collapsingToolbarLayout.setStatusBarScrimColor(mutedDarkColor);
-
-
-            int[][] states = new int[][] {
-                    new int[] { android.R.attr.state_enabled}, // enabled
-                    new int[] {-android.R.attr.state_enabled}, // disabled
-                    new int[] {-android.R.attr.state_checked}, // unchecked
-                    new int[] { android.R.attr.state_pressed}  // pressed
-            };
-
-            int[] colors = new int[] {
-                    vibrantColor,
-                    vibrantColor,
-                    vibrantColor,
-                    vibrantColor
-            };
-
-            ColorStateList myList = new ColorStateList(states, colors);
-
-          //  collapsingToolbarLayout.setExpandedTitleTextColor(myList);
+            this.collapsingToolbarLayout.setContentScrimColor(mutedColor);
+            this.collapsingToolbarLayout.setStatusBarScrimColor(mutedDarkColor);
         });
     }
 
