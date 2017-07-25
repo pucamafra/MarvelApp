@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.tab.marvelapp.R;
 import com.tab.marvelapp.model.Result;
 import com.tab.marvelapp.model.Thumbnail;
+import com.tab.marvelapp.utils.ColorUtil;
 import com.tab.marvelapp.utils.FormatUtils;
 
 import butterknife.BindView;
@@ -103,7 +104,7 @@ public class ComicDetailActivity extends AppCompatActivity {
         Bitmap bitmap = ((BitmapDrawable) this.image.getDrawable()).getBitmap();
         Palette.from(bitmap).generate(palette -> {
             int mutedColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-            int mutedDarkColor = palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+            int mutedDarkColor = ColorUtil.manipulateColor(mutedColor, 0.8f);
             this.collapsingToolbarLayout.setContentScrimColor(mutedColor);
             this.collapsingToolbarLayout.setStatusBarScrimColor(mutedDarkColor);
         });
