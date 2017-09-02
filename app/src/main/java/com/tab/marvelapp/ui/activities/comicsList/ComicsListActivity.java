@@ -3,12 +3,16 @@ package com.tab.marvelapp.ui.activities.comicsList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.tab.marvelapp.R;
@@ -24,6 +28,8 @@ import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 
 public class ComicsListActivity extends AppCompatActivity implements ComicItem.OnClickListener, SearchView.OnQueryTextListener {
+
+    private static final String COMIC_ARG = "results";
 
     @BindView(R.id.comicList)
     RecyclerView comicList;
@@ -80,6 +86,36 @@ public class ComicsListActivity extends AppCompatActivity implements ComicItem.O
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        MenuItemCompat.setOnActionExpandListener(item,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+// Do something when collapsed
+                        System.out.println("Do something when collapsed");
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+// Do something when expanded
+                        System.out.println("Do something when expanded");
+                        return true; // Return true to expand action view
+                    }
+                });
+
+        return true;
+    }
+
+    @Override
     public void onComicSelected(Result result) {
         System.out.println();
         Intent intent = ComicDetailActivity.createInstance(this, result);
@@ -89,11 +125,13 @@ public class ComicsListActivity extends AppCompatActivity implements ComicItem.O
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        System.out.println("onQueryTextSubmit");
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        System.out.println("onQueryTextChange");
         return false;
     }
 }
