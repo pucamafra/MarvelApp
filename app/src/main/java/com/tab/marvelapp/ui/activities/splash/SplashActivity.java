@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.tab.marvelapp.MarvelApplication;
 import com.tab.marvelapp.R;
@@ -18,7 +17,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SplashActivity extends AppCompatActivity implements SplashPresenterView, View.OnClickListener {
+public class SplashActivity extends AppCompatActivity implements SplashPresenterView {
 
     @Inject
     SplashPresenter splashPresenter;
@@ -63,8 +62,12 @@ public class SplashActivity extends AppCompatActivity implements SplashPresenter
 
     private void showSnackBarWithAction(View view) {
         Snackbar.make(view, R.string.internal_error, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.try_again, this)
+                .setAction(R.string.try_again, this::onRetry)
                 .show();
+    }
+
+    public void onRetry(View v) {
+        this.splashPresenter.fetchComics();
     }
 
     @Override
@@ -73,8 +76,5 @@ public class SplashActivity extends AppCompatActivity implements SplashPresenter
         this.splashPresenter.detachView();
     }
 
-    @Override
-    public void onClick(View v) {
-        this.splashPresenter.fetchComics();
-    }
+
 }
